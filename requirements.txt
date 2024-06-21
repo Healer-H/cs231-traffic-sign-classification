@@ -1,7 +1,13 @@
 bbox-visualizer==0.1.0
+beautifulsoup4==4.12.3
+certifi==2024.6.2
+charset-normalizer==3.3.2
 contourpy==1.2.1
 cycler==0.12.1
+filelock==3.15.3
 fonttools==4.53.0
+gdown==5.2.0
+idna==3.7
 imageio==2.34.1
 joblib==1.4.2
 kiwisolver==1.4.5
@@ -14,15 +20,20 @@ packaging==24.1
 pandas==2.2.2
 pillow==10.3.0
 pyparsing==3.1.2
+PySocks==1.7.1
 python-dateutil==2.9.0.post0
 pytz==2024.1
 PyYAML==6.0.1
+requests==2.32.3
 scikit-image==0.24.0
 scikit-learn==1.5.0
 scipy==1.13.1
 seaborn==0.13.2
 six==1.16.0
+soupsieve==2.5
 threadpoolctl==3.5.0
 tifffile==2024.6.18
--e git+https://github.com/Healer-H/cs231-traffic-sign-classification.git@a5aff79447a1560f220eed53a640abf6da2dad28#egg=traffic_sign_classification
+tqdm==4.66.4
+-e git+https://github.com/Healer-H/cs231-traffic-sign-classification.git@78a9a92b05b6f4551ce96c6bb73686e67413b377#egg=traffic_sign_classification
 tzdata==2024.1
+urllib3==2.2.2

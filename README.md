@@ -10,6 +10,51 @@ Repository này chứa source code và các tài nguyên cho bài toán phân lo
 
 ## Hướng dẫn sử dụng
 
+1. Tạo môi trường ảo chứa các package cần thiết cho chương trình
+
+```bash
+python3 -m venv .env
+echo "export PYTHONPATH=$(pwd)" >> .env/bin/activate
+```
+
+Sau đó kích hoạt môi trường ảo bằng cách thực thi lệnh `.env/bin/activate` đối với Windows hoặc `source .env/bin/activate` đối với Unix.
+
+2. Install các package cần thiết
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Tải bộ dữ liệu
+   Ta tải bộ dữ liệu từ Google Drive thông qua lệnh sau:
+
+```bash
+python3 scripts/download_data.py
+```
+
+4. Huấn luyện mô hình
+
+Fine tune và huấn luyện mô hình kNN và Random Forest bằng lệnh
+
+```bash
+python3 scripts/train_model.py
+```
+
+- Kết quả của quá trình fine tune sẽ được lưu vào `results/hyperparameters_tunning`
+- Kết quả của quá trình huấn luyện mô hình sẽ được lưu vào `models`
+
+5. Đánh giá mô hình
+   Tiến hành đánh giá hai mô hình trên tập test bằng lệnh
+
+```bash
+python3 scripts/evaluate_model.py
+```
+
+Kết quả của quá trình đánh giá mỗi mô hình sẽ cho ta biết `accuracy`, `precision`, `recall`, `f1-score` cũng như `confusion matrix` của mô hình đó trên tập test.
+
+- Các metrics đánh giá mô hình sẽ được lưu lại trong thư mục `results/metrics`
+- Các `confusion matrix` sẽ được lưu lại trong thư mục `results/visualizations`
+
 ## Yêu Cầu Hệ Thống
 
 - Python 3.11

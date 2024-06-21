@@ -4,8 +4,8 @@ data:
   train_labels_dir: 'train/labels'
   test_images_dir: 'test/images'
   test_labels_dir: 'test/labels'
-  dev_images_dir: 'dev/images'
-  dev_labels_dir: 'dev/labels'
+  valid_images_dir: 'valid/images'
+  valid_labels_dir: 'valid/labels'
 
 model:
   knn:
@@ -49,5 +49,5 @@ output:
   hyperparameter_tuning_dir: 'hyperparameter_tuning'
   knn_results_file: 'knn_grid_search_results.csv'
   random_forest_results_file: 'random_forest_grid_search_results.csv'
-  knn_model_file: 'knn_model.pkl'
-  random_forest_model_file: 'random_forest_model.pkl'
+  knn_model_file: 'best_knn_model.pkl'
+  random_forest_model_file: 'best_rf_model.pkl'

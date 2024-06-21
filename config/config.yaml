@@ -43,6 +43,8 @@ logging:
 
 output:
   model_dir: 'models'
+  knn_model_dir: 'knn'
+  random_forest_model_dir: 'random_forest'
   results_dir: 'results'
   hyperparameter_tuning_dir: 'hyperparameter_tuning'
   knn_results_file: 'knn_grid_search_results.csv'

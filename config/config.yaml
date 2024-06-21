@@ -1,0 +1,53 @@
+data:
+  path: 'data'
+  train_images_dir: 'train/images'
+  train_labels_dir: 'train/labels'
+  test_images_dir: 'test/images'
+  test_labels_dir: 'test/labels'
+  dev_images_dir: 'dev/images'
+  dev_labels_dir: 'dev/labels'
+
+model:
+  knn:
+    n_neighbors: [5, 10, 20, 30, 50]
+    weights: ['uniform', 'distance']
+    model_path: 'models/knn/knn_model.pkl'
+  random_forest:
+    n_estimators: [50, 100, 150, 200]
+    max_depth: [None, 5, 10, 15]
+    model_path: 'models/random_forest/random_forest_model.pkl'
+
+training:
+  batch_size: 32
+  epochs: 20
+  learning_rate: 0.001
+  validation_split: 0.2
+
+images:
+  resize_width: 32
+  resize_height: 64
+  channels: 3
+
+visualization:
+  num_images_to_visualize: 5
+  colors:
+    - [240, 10, 10]   # Red for label 0
+    - [255, 215, 15]  # Yellow for label 1
+    - [0, 70, 170]    # Blue for label 2
+    - [127, 162, 212] # Light Blue for label 3
+
+logging:
+  level: INFO
+  log_dir: 'logs'
+  log_file: 'training.log'
+
+output:
+  model_dir: 'models'
+  knn_model_dir: 'knn'
+  random_forest_model_dir: 'random_forest'
+  results_dir: 'results'
+  hyperparameter_tuning_dir: 'hyperparameter_tuning'
+  knn_results_file: 'knn_grid_search_results.csv'
+  random_forest_results_file: 'random_forest_grid_search_results.csv'
+  knn_model_file: 'knn_model.pkl'
+  random_forest_model_file: 'random_forest_model.pkl'

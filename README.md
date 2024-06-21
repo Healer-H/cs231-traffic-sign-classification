@@ -16,7 +16,7 @@ Repository này chứa source code và các tài nguyên cho bài toán phân lo
 - Các thư viện: numpy, pandas, scikit-learn, matplotlib, opencv-python, scikit-image
 - Xem thêm ở file `requirements.txt`
 
-## Cấu Trúc Thư Mục
+## Cấu trúc thư mục
 
 Dưới đây là giải thích chi tiết về cấu trúc thư mục của dự án phân loại biển báo giao thông:
 

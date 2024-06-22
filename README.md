@@ -6,17 +6,36 @@ dụng HOG, và huấn luyện các mô hình phân loại như k-Nearest Neighb
 ![](images/bounding_box.png "Biển báo giao thông")
 
 ## Các nhóm biển báo
+
 ### Biển báo cấm
+
 ![](images/prohibition_signs.png "Prohibition Signs")
 
 ### Biển báo nguy hiểm
+
 ![](images/warning_signs.png "Warning Signs")
 
 ### Biển báo chỉ dẫn
+
 ![](images/mandatory_signs.png "Mandatory Signs")
 
 ### Biển báo thông tin
+
 ![](images/information_signs.png "Information Signs")
+
+## Demo
+
+Thực hiện gọi app demo bằng lệnh
+
+```bash
+python3 scripts/predict.py
+```
+
+- Load ảnh biển báo giao thông vào cửa sổ pop-up hiện lên bằng cách nhấp vào `Load Image`
+- Dùng mô hình để dự đoán và xem kết quả bằng cách nhấp vào `Predict and Display`
+
+![Demo GIF](images/demo_vid.gif "Demo")
+
 
 ## Các tính năng
 
@@ -136,3 +155,4 @@ Tệp cấu hình để cài đặt dự án như một gói Python, cho phép s
 #### └── README.md
 
 Tệp tài liệu của dự án, cung cấp thông tin tổng quan về dự án, hướng dẫn cài đặt, sử dụng, và các chi tiết liên quan khác.
+

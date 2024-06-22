@@ -1,6 +1,22 @@
 # Đồ án cuối kì CS231 -- Phân loại biển báo giao thông
 
-Repository này chứa source code và các tài nguyên cho bài toán phân loại biển báo giao thông sử dụng các kỹ thuật học máy. Mục tiêu chính là phát triển một mô hình có khả năng phân loại biển báo giao thông vào một trong bốn loại: Biển báo cấm, Biển báo nguy hiểm, Biển báo hiệu lệnh, và Biển báo chỉ dẫn. Dự án bao gồm các bước tiền xử lý dữ liệu, trích xuất đặc trưng sử dụng HOG, và huấn luyện các mô hình phân loại như k-Nearest Neighbors (kNN) và Random Forest.
+Repository này chứa source code và các tài nguyên cho bài toán phân loại biển báo giao thông sử dụng các kỹ thuật học máy. Mục tiêu chính là phát triển một mô hình có khả năng phân loại biển báo giao thông vào một trong bốn loại: Biển báo cấm, Biển báo nguy hiểm, Biển báo hiệu lệnh, và Biển báo chỉ dẫn. Dự án bao gồm các bước tiền xử lý dữ liệu, trích xuất đặc trưng sử
+dụng HOG, và huấn luyện các mô hình phân loại như k-Nearest Neighbors (kNN) và Random Forest.
+
+![](images/bounding_box.png "Biển báo giao thông")
+
+## Các nhóm biển báo
+### Biển báo cấm
+![](images/prohibition_signs.png "Prohibition Signs")
+
+### Biển báo nguy hiểm
+![](images/warning_signs.png "Warning Signs")
+
+### Biển báo chỉ dẫn
+![](images/mandatory_signs.png "Mandatory Signs")
+
+### Biển báo thông tin
+![](images/information_signs.png "Information Signs")
 
 ## Các tính năng
 

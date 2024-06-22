@@ -34,7 +34,7 @@ python3 scripts/predict.py
 - Load ảnh biển báo giao thông vào cửa sổ pop-up hiện lên bằng cách nhấp vào `Load Image`
 - Dùng mô hình để dự đoán và xem kết quả bằng cách nhấp vào `Predict and Display`
 
-![Demo GIF](https://github.com/Healer-H/cs231-traffic-sign-classification/blob/develop/images/demo_vid.gif "Demo")
+![Demo GIF](https://github.com/Healer-H/cs231-traffic-sign-classification/blob/master/images/demo_vid.gif "Demo")
 
 
 

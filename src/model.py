@@ -1,13 +1,14 @@
+import numpy as np
+import pandas as pd
+import logging
+import matplotlib.pyplot as plt
+import seaborn as sns
+import joblib
+import os
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.ensemble import RandomForestClassifier
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import joblib
-import pickle
-import os
 from src.config_reader import config
 
 
@@ -45,20 +46,21 @@ def knn_hyperparameter_tuning(X_train, y_train):
     grid_search_knn = GridSearchCV(
         knn, param_grid, cv=5, scoring='accuracy', return_train_score=True)
     grid_search_knn.fit(X_train, y_train)
-    
+
     print("Hyperparameter tuning for kNN model has been done!")
     print(f"Best hyperparameters: {grid_search_knn.best_params_}")
     print(f"Saving results to file {config['output']['knn_results_file']}")
 
     knn_results_df = pd.DataFrame(grid_search_knn.cv_results_)
     output_dir_path = os.path.join(
-    config['output']['results_dir'], 
-    config['output']['hyperparameter_tuning_dir']
+        config['output']['results_dir'],
+        config['output']['hyperparameter_tuning_dir']
     )
-    os.makedirs(output_dir_path, exist_ok=True)  # Create the directory if it doesn't exist
+    # Create the directory if it doesn't exist
+    os.makedirs(output_dir_path, exist_ok=True)
 
     knn_results_df.to_csv(os.path.join(
-        output_dir_path, 
+        output_dir_path,
         config['output']['knn_results_file']), index=False)
 
     return grid_search_knn.best_estimator_
@@ -71,7 +73,7 @@ def random_forest_hyperparameter_tuning(X_train, y_train):
     }
     print("Start tuning hyperparameters for Random Forest model")
     print(f"Parameters grid: {param_grid}")
-    
+
     rf = RandomForestClassifier()
 
     grid_search_rf = GridSearchCV(rf, param_grid, cv=5,
@@ -80,15 +82,16 @@ def random_forest_hyperparameter_tuning(X_train, y_train):
 
     print("Hyperparameter tuning for Random Forest model has been done!")
     print(f"Best hyperparameters: {grid_search_rf.best_params_}")
-    print(f"Saving results to file {config['output']['random_forest_results_file']}")
-    
-    output_dir_path = os.path.join(
-        config['output']['results_dir'], 
-        config['output']['hyperparameter_tuning_dir']
-        )
-    os.makedirs(output_dir_path, exist_ok=True)  # Create the directory if it doesn't exist
+    print(
+        f"Saving results to file {config['output']['random_forest_results_file']}")
 
-    
+    output_dir_path = os.path.join(
+        config['output']['results_dir'],
+        config['output']['hyperparameter_tuning_dir']
+    )
+    # Create the directory if it doesn't exist
+    os.makedirs(output_dir_path, exist_ok=True)
+
     rf_results_df = pd.DataFrame(grid_search_rf.cv_results_)
     rf_results_df.to_csv(os.path.join(
         output_dir_path,
@@ -114,3 +117,40 @@ def read_rf_results(file_path):
                                                 'split0_train_score', 'split1_train_score', 'split2_train_score', 'split3_train_score', 'split4_train_score', 'std_train_score',
                                                 'split0_test_score', 'split1_test_score', 'split2_test_score', 'split3_test_score', 'split4_test_score', 'std_test_score']).sort_values(by=['rank_test_score'])
     return rf_results_df
+
+
+def evaluate_model(model, X_test, y_test, model_name):
+    logging.info(f"Evaluating model {model_name}...")
+
+    y_pred = model.predict(X_test)
+    report = classification_report(y_test, y_pred, target_names=[
+                                   'Prohibition Signs', 'Warning Signs', 'Mandatory Signs', 'Information Signs'])
+    conf_matrix = confusion_matrix(y_test, y_pred)
+
+    logging.info(f"Classification Report for {model_name}:\n{report}")
+    print(f"Classification Report for {model_name}:\n{report}")
+
+    metrics_dir = os.path.join(config['output']['results_dir'], 'metrics')
+    os.makedirs(metrics_dir, exist_ok=True)
+    conf_matrix_file = os.path.join(
+        metrics_dir, f'{model_name}_confusion_matrix.npy')
+    np.save(conf_matrix_file, conf_matrix)
+    logging.info(f"Confusion matrix saved to {conf_matrix_file}")
+
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+                xticklabels=['Prohibition', 'Warning',
+                             'Mandatory', 'Information'],
+                yticklabels=['Prohibition', 'Warning', 'Mandatory', 'Information'])
+    plt.title(f'Confusion Matrix for {model_name}')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+
+    visualizations_dir = os.path.join(
+        config['output']['results_dir'], 'visualizations')
+    os.makedirs(visualizations_dir, exist_ok=True)
+    heatmap_file = os.path.join(
+        visualizations_dir, f'{model_name}_confusion_matrix_heatmap.png')
+    plt.savefig(heatmap_file)
+    logging.info(f"Heatmap saved to {heatmap_file}")
+    plt.show()

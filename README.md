@@ -1,6 +1,43 @@
 # Đồ án cuối kì CS231 -- Phân loại biển báo giao thông
 
-Repository này chứa source code và các tài nguyên cho bài toán phân loại biển báo giao thông sử dụng các kỹ thuật học máy. Mục tiêu chính là phát triển một mô hình có khả năng phân loại biển báo giao thông vào một trong bốn loại: Biển báo cấm, Biển báo nguy hiểm, Biển báo hiệu lệnh, và Biển báo chỉ dẫn. Dự án bao gồm các bước tiền xử lý dữ liệu, trích xuất đặc trưng sử dụng HOG, và huấn luyện các mô hình phân loại như k-Nearest Neighbors (kNN) và Random Forest.
+Repository này chứa source code và các tài nguyên cho bài toán phân loại biển báo giao thông sử dụng các kỹ thuật học máy. Mục tiêu chính là phát triển một mô hình có khả năng phân loại biển báo giao thông vào một trong bốn loại: Biển báo cấm, Biển báo nguy hiểm, Biển báo hiệu lệnh, và Biển báo chỉ dẫn. Dự án bao gồm các bước tiền xử lý dữ liệu, trích xuất đặc trưng sử
+dụng HOG, và huấn luyện các mô hình phân loại như k-Nearest Neighbors (kNN) và Random Forest.
+
+![](images/bounding_box.png "Biển báo giao thông")
+
+## Các nhóm biển báo
+
+### Biển báo cấm
+
+![](images/prohibition_signs.png "Prohibition Signs")
+
+### Biển báo nguy hiểm
+
+![](images/warning_signs.png "Warning Signs")
+
+### Biển báo chỉ dẫn
+
+![](images/mandatory_signs.png "Mandatory Signs")
+
+### Biển báo thông tin
+
+![](images/information_signs.png "Information Signs")
+
+## Demo
+
+Thực hiện gọi app demo bằng lệnh
+
+```bash
+python3 scripts/predict.py
+```
+
+- Load ảnh biển báo giao thông vào cửa sổ pop-up hiện lên bằng cách nhấp vào `Load Image`
+- Dùng mô hình để dự đoán và xem kết quả bằng cách nhấp vào `Predict and Display`
+
+![Demo GIF](https://github.com/Healer-H/cs231-traffic-sign-classification/blob/develop/images/demo_vid.gif "Demo")
+
+
+
 
 ## Các tính năng
 
@@ -8,13 +45,59 @@ Repository này chứa source code và các tài nguyên cho bài toán phân lo
 - **Trích xuất đặc trưng**: Sử dụng Histogram of Oriented Gradients (HOG) để nắm bắt các đặc trưng quan trọng.
 - **Huấn luyện mô hình**: Triển khai các mô hình kNN và Random Forest.
 
-## Hướng dẫn sử dụng
-
-## Yêu Cầu Hệ Thống
+## Yêu cầu hệ thống
 
 - Python 3.11
+- OS: Ubuntu 24.04 LTS (khuyến khích sử dụng Linux hoặc WSL thay thế cho Windows)
 - Các thư viện: numpy, pandas, scikit-learn, matplotlib, opencv-python, scikit-image
 - Xem thêm ở file `requirements.txt`
+
+## Hướng dẫn sử dụng
+
+1. Tạo môi trường ảo chứa các package cần thiết cho chương trình
+
+```bash
+python3 -m venv .env
+echo "export PYTHONPATH=$(pwd)" >> .env/bin/activate
+```
+
+Sau đó kích hoạt môi trường ảo bằng cách thực thi lệnh `source .env/bin/activate` đối với Linux/MacOS.
+
+2. Install các package cần thiết
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Tải bộ dữ liệu
+   Ta tải bộ dữ liệu từ Google Drive thông qua lệnh sau:
+
+```bash
+python3 scripts/download_data.py
+```
+
+4. Huấn luyện mô hình
+
+Fine tune và huấn luyện mô hình kNN và Random Forest bằng lệnh
+
+```bash
+python3 scripts/train_model.py
+```
+
+- Kết quả của quá trình fine tune sẽ được lưu vào `results/hyperparameters_tunning`
+- Kết quả của quá trình huấn luyện mô hình sẽ được lưu vào `models`
+
+5. Đánh giá mô hình
+   Tiến hành đánh giá hai mô hình trên tập test bằng lệnh
+
+```bash
+python3 scripts/evaluate_model.py
+```
+
+Kết quả của quá trình đánh giá mỗi mô hình sẽ cho ta biết `accuracy`, `precision`, `recall`, `f1-score` cũng như `confusion matrix` của mô hình đó trên tập test.
+
+- Các metrics đánh giá mô hình sẽ được lưu lại trong thư mục `results/metrics`
+- Các `confusion matrix` sẽ được lưu lại trong thư mục `results/visualizations`
 
 ## Cấu trúc thư mục
 
@@ -74,3 +157,4 @@ Tệp cấu hình để cài đặt dự án như một gói Python, cho phép s
 #### └── README.md
 
 Tệp tài liệu của dự án, cung cấp thông tin tổng quan về dự án, hướng dẫn cài đặt, sử dụng, và các chi tiết liên quan khác.
+

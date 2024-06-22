@@ -8,6 +8,13 @@ Repository này chứa source code và các tài nguyên cho bài toán phân lo
 - **Trích xuất đặc trưng**: Sử dụng Histogram of Oriented Gradients (HOG) để nắm bắt các đặc trưng quan trọng.
 - **Huấn luyện mô hình**: Triển khai các mô hình kNN và Random Forest.
 
+## Yêu cầu hệ thống
+
+- Python 3.11
+- OS: Ubuntu 24.04 LTS (khuyến khích sử dụng Linux hoặc WSL thay thế cho Windows)
+- Các thư viện: numpy, pandas, scikit-learn, matplotlib, opencv-python, scikit-image
+- Xem thêm ở file `requirements.txt`
+
 ## Hướng dẫn sử dụng
 
 1. Tạo môi trường ảo chứa các package cần thiết cho chương trình
@@ -17,7 +24,7 @@ python3 -m venv .env
 echo "export PYTHONPATH=$(pwd)" >> .env/bin/activate
 ```
 
-Sau đó kích hoạt môi trường ảo bằng cách thực thi lệnh `.env/bin/activate` đối với Windows hoặc `source .env/bin/activate` đối với Unix.
+Sau đó kích hoạt môi trường ảo bằng cách thực thi lệnh `source .env/bin/activate` đối với Linux/MacOS.
 
 2. Install các package cần thiết
 
@@ -54,12 +61,6 @@ Kết quả của quá trình đánh giá mỗi mô hình sẽ cho ta biết `ac
 
 - Các metrics đánh giá mô hình sẽ được lưu lại trong thư mục `results/metrics`
 - Các `confusion matrix` sẽ được lưu lại trong thư mục `results/visualizations`
-
-## Yêu Cầu Hệ Thống
-
-- Python 3.11
-- Các thư viện: numpy, pandas, scikit-learn, matplotlib, opencv-python, scikit-image
-- Xem thêm ở file `requirements.txt`
 
 ## Cấu trúc thư mục
 

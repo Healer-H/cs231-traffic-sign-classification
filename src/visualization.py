@@ -6,31 +6,7 @@ import numpy as np
 from skimage.feature import hog
 from config_reader import config
 import bbox_visualizer as bbv
-
-def plot_data_distribution(train_counts, test_counts):
-    data = {
-        'Class': ['Prohibition', 'Warning', 'Mandatory', 'Information'],
-        'Train': train_counts,
-        'Test': test_counts,
-    }
-    df = pd.DataFrame(data)
-
-    ax = df.set_index('Class').T.plot(
-        kind='bar', figsize=(12, 6), legend=True, 
-        color=config['visualization']['colors']
-        )
-    plt.title('Data Distribution')
-    plt.ylabel('Count')
-    plt.xlabel('Dataset')
-    plt.xticks(rotation=45)
-
-    for p in ax.patches:
-        ax.annotate(str(p.get_height()), (p.get_x() + p.get_width() / 2., p.get_height()), color='black', fontweight='bold', ha='center', va='center', fontsize=11, xytext=(0, 10),
-                    textcoords='offset points')
-
-    plt.legend(title='Class', labels=['P', 'W', 'M', 'I'])
-    plt.show()
-
+import os 
 
 def plot_cropped_images_by_class(images, annotations, class_label, num_images=30):
     cropped_images = []
@@ -95,32 +71,62 @@ def visualize_hog_features(images, annotations, class_label, num_images=5, pixel
                 if num_images == 0:
                     return
 
-
-def visualize_bboxes(images, annotations, num_images=5):
-    # colors = [
-    #     (0x0A, 0x0A, 0xF0),  # #F00A0A
-    #     (0x0F, 0xD7, 0xFF),  # #FFD70F
-    #     (0xAA, 0x46, 0x00),  # #0046AA
-    #     (0xD4, 0xA2, 0x7F)   # #7FA2D4
-    # ]
-    colors = config['visualization']['colors']
+def visualize_bboxes(images, annotations, output_dir, num_images=5):
+    colors = [
+        (240, 10, 10),  # Red
+        (255, 215, 15), # Yellow
+        (0, 70, 170),   # Blue
+        (127, 162, 212) # Light Blue
+    ]
     label_names = ['P', 'W', 'M', 'I']
     cropped_images = []
-    for _ in range(min(num_images, len(images))):
-        index = random.randint(0, len(images) - 1)
-        img = images[index].copy()
-        bboxes, labels = annotations[index]
+    
+    for i in range(min(num_images, len(images))):
+        img = images[i].copy()
+        bboxes, labels = annotations[i]
 
         for bbox, label in zip(bboxes, labels):
             color = colors[label]
             x1, y1, x2, y2 = bbox
-            bbox = [x1, y1, x2, y2]
+            cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
             label_name = label_names[label]
-            cropped_images.append(img[y1:y2, x1:x2])
-            img = bbv.draw_rectangle(img, bbox, bbox_color=color, thickness=2)
-            img = bbv.add_label(img, label_name, bbox, text_bg_color=color)
+            cv2.putText(img, label_name, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
+        
         plt.figure(figsize=(10, 10))
         plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
         plt.axis('off')
-        plt.show()
+        plt.savefig(os.path.join(output_dir, f'image_{i}.png'))
+        plt.close()
+        cropped_images.append(img)
+    
     return cropped_images
+
+def count_labels(annotations):
+    label_counts = [0, 0, 0, 0]
+    for bboxes, labels in annotations:
+        for label in labels:
+            label_counts[label] += 1
+    return label_counts
+
+def plot_data_distribution(train_counts, test_counts, output_dir):
+    data = {
+        'Class': ['Prohibition', 'Warning', 'Mandatory', 'Information'],
+        'Train': train_counts,
+        'Test': test_counts,
+    }
+    df = pd.DataFrame(data)
+    
+    plt.figure(figsize=(12, 6))
+    ax = df.set_index('Class').T.plot(kind='bar', figsize=(12, 6), legend=True, color=['#F00A0A', '#FFD70F', '#0046AA', '#7FA2D4'])
+    plt.title('Data Distribution')
+    plt.ylabel('Count')
+    plt.xlabel('Dataset')
+    plt.xticks(rotation=45)
+    
+    for p in ax.patches:
+        ax.annotate(str(p.get_height()), (p.get_x() + p.get_width() / 2., p.get_height()), color='black', fontweight='bold', ha='center', va='center', fontsize=11, xytext=(0, 10),
+                    textcoords='offset points')
+    
+    plt.legend(title='Class', labels=['P', 'W', 'M', 'I'])
+    plt.savefig(os.path.join(output_dir, 'data_distribution.png'))
+    plt.close()

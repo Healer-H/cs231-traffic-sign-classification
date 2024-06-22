@@ -1,17 +1,14 @@
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.ensemble import RandomForestClassifier
-import logging
-from sklearn.metrics import classification_report, confusion_matrix
-import seaborn as sns
-import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
-import seaborn as sns
+import logging
 import matplotlib.pyplot as plt
+import seaborn as sns
 import joblib
 import os
-import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import classification_report, confusion_matrix
 from src.config_reader import config
 
 
@@ -126,7 +123,8 @@ def evaluate_model(model, X_test, y_test, model_name):
     logging.info(f"Evaluating model {model_name}...")
 
     y_pred = model.predict(X_test)
-    report = classification_report(y_test, y_pred, target_names=['Prohibition Signs', 'Warning Signs', 'Mandatory Signs', 'Information Signs'])
+    report = classification_report(y_test, y_pred, target_names=[
+                                   'Prohibition Signs', 'Warning Signs', 'Mandatory Signs', 'Information Signs'])
     conf_matrix = confusion_matrix(y_test, y_pred)
 
     logging.info(f"Classification Report for {model_name}:\n{report}")
@@ -134,21 +132,25 @@ def evaluate_model(model, X_test, y_test, model_name):
 
     metrics_dir = os.path.join(config['output']['results_dir'], 'metrics')
     os.makedirs(metrics_dir, exist_ok=True)
-    conf_matrix_file = os.path.join(metrics_dir, f'{model_name}_confusion_matrix.npy')
+    conf_matrix_file = os.path.join(
+        metrics_dir, f'{model_name}_confusion_matrix.npy')
     np.save(conf_matrix_file, conf_matrix)
     logging.info(f"Confusion matrix saved to {conf_matrix_file}")
 
     plt.figure(figsize=(10, 7))
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', 
-                xticklabels=['Prohibition', 'Warning', 'Mandatory', 'Information'], 
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+                xticklabels=['Prohibition', 'Warning',
+                             'Mandatory', 'Information'],
                 yticklabels=['Prohibition', 'Warning', 'Mandatory', 'Information'])
     plt.title(f'Confusion Matrix for {model_name}')
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    
-    visualizations_dir = os.path.join(config['output']['results_dir'], 'visualizations')
+
+    visualizations_dir = os.path.join(
+        config['output']['results_dir'], 'visualizations')
     os.makedirs(visualizations_dir, exist_ok=True)
-    heatmap_file = os.path.join(visualizations_dir, f'{model_name}_confusion_matrix_heatmap.png')
+    heatmap_file = os.path.join(
+        visualizations_dir, f'{model_name}_confusion_matrix_heatmap.png')
     plt.savefig(heatmap_file)
     logging.info(f"Heatmap saved to {heatmap_file}")
     plt.show()
